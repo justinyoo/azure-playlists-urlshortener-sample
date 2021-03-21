@@ -1,3 +1,7 @@
+using System;
+
+using Azure.Data.Tables;
+
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,9 +12,14 @@ namespace UrlShortener.FuncApp
 {
     public class Startup : FunctionsStartup
     {
+        private static string connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddTransient<IShortenerService, ShortenerService>();
+
+            var client = new TableServiceClient(connectionString);
+            builder.Services.AddSingleton(client);
         }
     }
 }
