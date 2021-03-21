@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json.schemastore.org/proxies",
+  "proxies": {
+    "RootRedirectProxy": {
+      "matchCondition": {
+        "route": "/"
+      },
+      "responseOverrides": {
+        "response.statusCode": "301",
+        "response.statusReason": "Moved Permanently",
+        "response.headers.location": "%DefaultRedirectUrl%"
+      }
+    },
+    "ShortenUrlProxy": {
+      "matchCondition": {
+        "route": "/api/shorten"
+      },
+      "backendUri": "https://localhost/api/shorten",
+      "requestOverrides": {
+        "backend.request.querystring": "request.querystring"
+      }
+    },
+    "ExpandUrlProxy": {
+      "matchCondition": {
+        "route": "/api/expand"
+      },
+      "backendUri": "https://localhost/api/expand",
+      "requestOverrides": {
+        "backend.request.querystring": "request.querystring"
+      }
+    },
+    "RedirectProxy": {
+      "matchCondition": {
+        "route": "/{*shortUrl}"
+      },
+      "backendUri": "https://localhost/api/expand?url={shortUrl}"
+    }
+  }
+}
