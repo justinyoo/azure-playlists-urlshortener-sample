@@ -17,6 +17,7 @@ namespace UrlShortener.FuncApp
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddTransient<IShortenerService, ShortenerService>();
+            builder.Services.AddTransient<IExpanderService, ExpanderService>();
 
             var client = new TableServiceClient(connectionString);
             builder.Services.AddSingleton(client);
